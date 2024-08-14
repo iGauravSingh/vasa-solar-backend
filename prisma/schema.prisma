@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Project posts
+
+model Post {
+  id             Int      @unique @default(autoincrement())
+  heading        String
+  location       String
+  completionDate DateTime
+  description    String
+  imageUrl       String
+}
+
+// image gallery
+
+model Gallery {
+  id       Int    @unique @default(autoincrement())
+  imageUrl String
+}
+
+// video gallery
+
+model Video {
+  id       Int    @unique @default(autoincrement())
+  videoUrl String
+}
+
+// staff table
+model staff {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+}
