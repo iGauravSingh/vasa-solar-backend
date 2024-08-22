@@ -21,14 +21,17 @@ model Post {
   location       String
   completionDate DateTime
   description    String
-  imageUrl       String
+  imageUrl       String   @default("https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+  createdAt      DateTime @default(now())
 }
 
 // image gallery
 
 model Gallery {
-  id       Int    @unique @default(autoincrement())
-  imageUrl String
+  id        Int      @unique @default(autoincrement())
+  imageUrl  String
+  imageName String
+  createdAt DateTime @default(now())
 }
 
 // video gallery

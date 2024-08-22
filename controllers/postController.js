@@ -7,6 +7,7 @@ const { prisma } = require("../db");
 
 //// get all rposts
 const getAllPosts = asyncHandler(async (req,res)=> {
+    // res.send("in get all posts")
     try {
         const allpost = await prisma.post.findMany({
             orderBy: {
@@ -25,14 +26,21 @@ const getAllPosts = asyncHandler(async (req,res)=> {
 const createPost = asyncHandler(async (req,res)=>{
     //console.log('in post controller create post')
     const {heading, location, completionDate, description, image} = req.body;
+
+    if(!heading || !location || !completionDate || !description ){
+        return res.status(400).json({"error": "Invalid data"})
+    }
+
+    const parseDate = new Date(completionDate)
     
     try {
         const newevent = await prisma.post.create({
             data: {
                 heading,
                 location,
-                completionDate,
-                imageUrl,
+                completionDate: parseDate,
+                description,
+                // imageUrl,
             }
         })
         res.json({message: "ok created"})
@@ -47,7 +55,7 @@ const deletePost = asyncHandler(async (req,res)=> {
     //console.log('in event controller delete event here is req.body', id)
     
     try {
-        const deletePost = await prisma.Post.delete({
+        const deletePost = await prisma.post.delete({
             where: {
                 id: id
             }
