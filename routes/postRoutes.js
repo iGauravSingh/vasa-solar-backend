@@ -67,6 +67,18 @@ router.post('/', authenticateToken,upload.single("file"), async (req,res) => {
 
 //
 
-router.delete('/:id', authenticateToken, postCOntroller.deletePost)
+router.delete('/:id', async (req,res) => {
+    try {
+      const { id } = req.params;
+      await prisma.post.delete({
+        where: {
+          id: parseInt(id),
+        },
+      })
+      res.status(200).json({ success: true, id})
+    } catch (error) {
+      console.log("error communicating database");
+    }
+  })
 
 module.exports = router

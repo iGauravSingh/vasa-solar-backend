@@ -7,6 +7,8 @@ const { prisma } = require("../db");
 
 const s3 = require("../scripts/aws-config");
 
+const { authenticateToken } = require('../middlewares/auth')
+
 // const {} = require("../middlewares/auth")
 
 // aws.config.update({
@@ -37,6 +39,8 @@ const upload = multer({ storage });
 
 // auth token latter
 
+// GET ALL IMAGES
+
 router.get("/", async (req, res) => {
   try {
     const allimages = await prisma.gallery.findMany({
@@ -52,7 +56,8 @@ router.get("/", async (req, res) => {
 });
 
 // Upload image to s3
-router.post("/", upload.single("file"), async (req, res) => {
+
+router.post("/", upload.single("file"), authenticateToken,async (req, res) => {
   // console.log("in image upload server route")
   const { buffer } = req.file;
   const { imagename } = req.body;
@@ -94,5 +99,18 @@ router.post("/", upload.single("file"), async (req, res) => {
 });
 
 // add delete route
+router.delete('/:id' , authenticateToken ,async (req,res) => {
+  try {
+    const { id } = req.params;
+    await prisma.gallery.delete({
+      where: {
+        id: parseInt(id),
+      },
+    })
+    res.status(200).json({ success: true, id})
+  } catch (error) {
+    console.log("error communicating database");
+  }
+})
 
 module.exports = router;

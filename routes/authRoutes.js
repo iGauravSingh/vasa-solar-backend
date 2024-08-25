@@ -14,7 +14,7 @@ router.post("/login", [
   authController.login,
 ]);
 
-router.put("/change-password", authenticateToken, [
+router.patch("/change-password", authenticateToken, [
   body("password")
     .trim()
     .isLength({ min: 3 })
