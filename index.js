@@ -21,6 +21,7 @@ app.use('/auth', require('./routes/authRoutes'))
 // project posts
 app.use('/posts', require('./routes/postRoutes'))
 // image posts
+app.use('/gallery', require('./routes/galleryRoutes'))
 
 // youtube link post
 
