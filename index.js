@@ -25,6 +25,9 @@ app.use('/gallery', require('./routes/galleryRoutes'))
 
 // youtube link post
 
+// email from contact
+app.use('/email', require('./routes/emailRoutes'))
+
 
 //
 
